@@ -1,4 +1,5 @@
 backend_server/node_modules
+backend_server/dist
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
@@ -108,3 +109,4 @@ ehthumbs.db
 [Dd]esktop.ini
 Corridor/Library/ShaderCache/
 Corridor/Library/metadata/
+backend_server/dist/
