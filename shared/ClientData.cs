@@ -2,11 +2,11 @@
 
 public class ClientData
 {
-    public UserData User;
+    public UserData User { get; set; }
 
-    public MachineData Machines;
+    public List<MachineData> Machines { get; set; }
 
-    public WaypointData Waypoints;
+    public List<WaypointData> Waypoints { get; set; }
 
     public class UserData
     {
@@ -28,15 +28,16 @@ public class ClientData
 
     public class WaypointData
     {
-        public int id { get; set; }
-
         public float x { get; set; }
         public float y { get; set; }
         public float z { get; set; }
 
+        public int id { get; set; }
+
         public List<int> children { get; set; }
 
         public bool is_exit { get; set; }
-        public bool is_machine { get; set; }
+
+        public int is_machine { get; set; }
     }
 }
