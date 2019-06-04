@@ -1,5 +1,4 @@
 "use strict";
-<<<<<<< HEAD
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -93,26 +92,3 @@ class Server extends net.Server {
 }
 exports.Server = Server;
 ;
-=======
-const net = require('net');
-const server = net.createServer((c) => {
-    // 'connection' listener
-    console.log('client connected');
-    c.on('end', () => {
-        console.log('client disconnected');
-    });
-    c.write('hello\r\n');
-    setInterval(() => {
-        c.write(`${JSON.stringify({ this: "is a test" })}\n`);
-    }, 2000);
-    c.on("data", (data) => {
-        console.log(data.toString());
-    });
-});
-server.on('error', (err) => {
-    console.log(err);
-});
-server.listen(9000, () => {
-    console.log('server bound');
-});
->>>>>>> 51f5b203ce7b22d993517215a95ffbc73324fabb
