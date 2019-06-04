@@ -57,7 +57,7 @@ class Server extends net.Server {
     ;
     setupBackendListener() {
         this.backend.on("event", (message) => {
-            console.log("message");
+            console.log(message);
         });
     }
     handleConnection(connection) {
