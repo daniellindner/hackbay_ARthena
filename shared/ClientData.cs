@@ -4,9 +4,9 @@ public class ClientData
 {
     public UserData User;
 
-    public MachineData Machines;
+    public MachineData[] Machines;
 
-    public WaypointData Waypoints;
+    public WaypointData[] Waypoints;
 
     public class UserData
     {
