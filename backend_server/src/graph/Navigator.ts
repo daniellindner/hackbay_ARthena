@@ -1,6 +1,9 @@
-export class Navigator {
-    constructor() {
+const Graph = require("graph.js/dist/graph.full.js");
 
+export class Navigator {
+    private graph: any
+    constructor() {
+        this.graph = new Graph();
     };
 
     public generateGraph(map: Object): boolean {

@@ -21,6 +21,7 @@ class Server extends net.Server {
         this.setupConnectionListener();
         this.setupErrorListener();
         this.setupCloseListener();
+        this.setupBackendListener();
         this.listen(this.port, () => {
             console.log(`Server bound on port ${this.port} and ready!`);
         });
@@ -54,6 +55,11 @@ class Server extends net.Server {
         });
     }
     ;
+    setupBackendListener() {
+        this.backend.on("event", (message) => {
+            console.log("message");
+        });
+    }
     handleConnection(connection) {
         // Implement first map transmission
         connection.once("data", (buffer) => {
@@ -75,7 +81,6 @@ class Server extends net.Server {
         });
         // Handle event from broker
         this.backend.on("event", (message) => {
-            console.log(`Message from broker received: ${message}`);
             connection.write(JSON.stringify(message));
         });
     }
