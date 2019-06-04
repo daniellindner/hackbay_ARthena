@@ -75,6 +75,7 @@ export class Server extends net.Server {
         // Handle event from broker
         this.backend.on("event", (message: string) => {
             console.log(`Message from broker received: ${message}`);
+            this.navigator.updateGraph(message, "error");
             connection.write(JSON.stringify(message));
         });
     };

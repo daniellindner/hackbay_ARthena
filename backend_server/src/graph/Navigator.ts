@@ -1,6 +1,9 @@
-export class Navigator {
-    constructor() {
+const graph = require("graph.js/dist/graph.full.js");
 
+export class Navigator {
+    private graph: any;
+    constructor() {
+        this.graph = new Graph();
     };
 
     public generateGraph(map: Object): boolean {
@@ -8,6 +11,14 @@ export class Navigator {
             return true;
         } catch {
             return false;
+        };
+    };
+
+    public updateGraph(node: string, status: string): void {
+        if (this.graph.hasVertex(node)) {
+            this.graph.setVertex(node, status);
+        } else {
+            return;
         };
     };
 
