@@ -1,0 +1,1 @@
+mqtt pub -h "localhost" -t "machine_events/test" -u "mqtt_broker" -P "hallo123" -m "testMessage"

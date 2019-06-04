@@ -1,0 +1,13 @@
+{
+	"machine": {
+		"id": 1,
+		"timestamp": "1559665726",
+		"isActive": "True",
+		"name": "Engery condesator",
+		"position": ["0.0","0.5","0.10"],
+		"waypoint": ["0.0", "0.7", "0.10"],
+		"alert": {
+			"state": 1,
+		}
+	}
+}
