@@ -11,3 +11,4 @@ var ErrorState;
     ErrorState["HAZARD"] = "hazard";
     ErrorState["NONE"] = "none";
 })(ErrorState = exports.ErrorState || (exports.ErrorState = {}));
+;

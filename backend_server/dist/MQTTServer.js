@@ -1,12 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Receiver_1 = require("./mqttReceiver/Receiver");
+const MqttServer_1 = require("./server/MqttServer");
 const Navigator_1 = require("./graph/Navigator");
-const Server_1 = require("./server/Server");
+const Receiver_1 = require("./mqttReceiver/Receiver");
+const Sender_1 = require("./mqttReceiver/Sender");
 const Types_1 = require("./types/Types");
-const backend = new Receiver_1.MessageReceiver();
 const navigator = new Navigator_1.Navigator();
-const server = new Server_1.Server(navigator, backend, 8000);
+const backend = new Receiver_1.MessageReceiver();
+const backendHelp = new Sender_1.MessageSender();
+const mqttServer = new MqttServer_1.MQTTServer(navigator, backend, backendHelp);
 const map = {
     Waypoints: [
         { id: 1, children: [2, 4], is_exit: true, is_machine: false, x: 1, y: 1, z: 1.5 },
@@ -20,6 +22,6 @@ const map = {
     User: { x: 4.1, y: 5.2, z: 1.23 },
     Help: true
 };
-server.injectMap(map);
-server.printMap();
-server.setup();
+mqttServer.setup();
+mqttServer.injectMap(map);
+console.log(mqttServer.printMap());

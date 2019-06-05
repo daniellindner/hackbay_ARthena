@@ -40,3 +40,9 @@ export interface BrokerEvent {
     id: number;
     state: ErrorState;
 }
+
+export interface HelpRequest {
+    x: number;
+    y: number;
+    z: number;
+}

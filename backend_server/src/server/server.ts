@@ -27,6 +27,14 @@ export class Server extends net.Server {
         });
     };
 
+    public injectMap(map: UserMap): void {
+        this.navigator.generateGraph(map);
+    };
+    
+    public printMap():void {
+        console.log(this.navigator.map);
+    }
+
     // Ignore this, just use to catch close events and not throw etc.
     private setupCloseListener(): void {
         this.on("close", (hadError: boolean) => {
@@ -55,9 +63,14 @@ export class Server extends net.Server {
 
     private setupBackendListener(): void {
         this.backend.on("event", (message: string) => {
-            const brokerEvent: BrokerEvent = JSON.parse(message);
-            console.log("Received message from broker: ", brokerEvent);
-            this.navigator.updateState(brokerEvent.id, brokerEvent.state);
+            console.log("Received message from broker: ", message);
+            const update: BrokerEvent = JSON.parse(message);
+            if (this.navigator.checkMachineOrDiscard(update.id)) {
+                this.navigator.updateState(update.id, update.state);
+                console.log("Updated map");
+            } else {
+                console.log("Discarding message");
+            };
         });
     };
 

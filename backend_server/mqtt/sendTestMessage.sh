@@ -1,1 +1,1 @@
-mqtt pub -h "localhost" -t "machine_events/mainnet" -u "mqtt_broker" -P "hallo123" -m "testMessage"
+mqtt pub -h "localhost" -t "machine_events/mainnet" -u "mqtt_broker" -P "hallo123" -m "{id: 11, state: 'none'}"

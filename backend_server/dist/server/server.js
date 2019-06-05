@@ -27,6 +27,13 @@ class Server extends net.Server {
         });
     }
     ;
+    injectMap(map) {
+        this.navigator.generateGraph(map);
+    }
+    ;
+    printMap() {
+        console.log(this.navigator.map);
+    }
     // Ignore this, just use to catch close events and not throw etc.
     setupCloseListener() {
         this.on("close", (hadError) => {
@@ -57,9 +64,19 @@ class Server extends net.Server {
     ;
     setupBackendListener() {
         this.backend.on("event", (message) => {
-            console.log(message);
+            console.log("Received message from broker: ", message);
+            const update = JSON.parse(message);
+            if (this.navigator.checkMachineOrDiscard(update.id)) {
+                this.navigator.updateState(update.id, update.state);
+                console.log("Updated map");
+            }
+            else {
+                console.log("Discarding message");
+            }
+            ;
         });
     }
+    ;
     handleConnection(connection) {
         // Implement first map transmission
         connection.once("data", (buffer) => {
@@ -89,8 +106,12 @@ class Server extends net.Server {
         // Check message type at later point, not needed for mvp
         // isMessageOk(message) => true etc.
         // Just print for now, later we call something like this:
-        const path = this.navigator.lookupQuickestExit({ help: "me" });
-        connection.write(`${path.toString()}\n`);
+        const req = JSON.parse(message);
+        if (req.Help === true) {
+            const path = this.navigator.lookupQuickestExit([req.User.x, req.User.y, req.User.z]);
+            connection.write(`${path}\n`);
+        }
+        ;
     }
     ;
 }

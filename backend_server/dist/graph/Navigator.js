@@ -10,6 +10,21 @@ class Navigator {
         return this.graph.toJSON();
     }
     ;
+    checkMachineOrDiscard(id) {
+        try {
+            const node = this.graph.vertexValue(id);
+            if (node["error"] !== undefined) {
+                return true;
+            }
+            ;
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+        ;
+        return false;
+    }
+    ;
     generateGraph(UserMap) {
         const map = UserMap;
         try {
@@ -62,13 +77,13 @@ class Navigator {
         let lowestDistance = 100000;
         let nearestNode = 0;
         let waypoints = [];
+        // iterates over all vertices of the graph
         for (var it = this.graph.vertices(), kv; !(kv = it.next()).done;) {
             var key = kv.value[0], value = kv.value[1];
             if (value["x"] && value["y"] && value["z"]) {
                 waypoints.push({ id: key, value: value });
             }
             ;
-            // iterates over all vertices of the graph
         }
         ;
         waypoints.forEach((waypoint) => {
@@ -83,13 +98,19 @@ class Navigator {
     }
     ;
     updateState(id, state) {
-        this.graph.setVertex(id, { error: state });
+        try {
+            this.graph.setVertex(id, { machine: true, error: state });
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+        ;
     }
     ;
     areSourrundingMachinesOk(node) {
         for (let it = this.graph.verticesFrom(node), kv; !(kv = it.next()).done;) {
             // iterates over all outgoing vertices of the `from` vertex
-            var to = kv.value[0], vertexValue = kv.value[1], edgeValue = kv.value[2];
+            var to = kv.value[0], vertexValue = kv.value[1];
             if (vertexValue["error"] !== undefined && vertexValue["error"] !== "none") {
                 return false;
             }
@@ -106,8 +127,14 @@ class Navigator {
         path.push(currentNode);
         while (!exitFound) {
             currentNode = this.getNextNeighbor(currentNode);
-            if (this.graph.vertexValue(currentNode).isExit === true) {
-                exitFound = true;
+            try {
+                if (this.graph.vertexValue(currentNode).isExit === true) {
+                    exitFound = true;
+                }
+                ;
+            }
+            catch (e) {
+                console.log(e);
             }
             ;
             path.push(currentNode);
