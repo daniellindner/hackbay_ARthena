@@ -1,14 +1,15 @@
 export interface UserMap {
-    waypoints: Array<WaypointData>;
-    machines: Array<MachineData>;
-    user: UserData;
+    Waypoints: Array<WaypointData>;
+    Machines: Array<MachineData>;
+    User: UserData;
+    Help: boolean;
 }
 
 export interface WaypointData extends BaseData {
-    id: Number;
-    children: Array<Number>;
-    isExit: boolean;
-    isMachine: boolean;
+    id: number;
+    children: Array<number>;
+    is_exit: boolean;
+    is_machine: boolean;
 };
 
 export interface UserData extends BaseData {
@@ -16,17 +17,26 @@ export interface UserData extends BaseData {
 };
 
 export interface MachineData extends BaseData {
-    id: Number;
-    waypoints: Array<Number>;
-    state: MachineState;
+    id: number;
+    waypoint_ids: Array<number>;
+    ErrorState: ErrorState;
 };
 
-export interface MachineState {
-    error: String;
-};
 
 export interface BaseData {
-    x: Number;
-    y: Number;
-    z: Number;
+    x: number;
+    y: number;
+    z: number;
 };
+
+export enum ErrorState {
+    MAINTAINENCE="maintainence",
+    DANGER="danger",
+    HAZARD="hazard",
+    NONE="none"
+};
+
+export interface BrokerEvent {
+    id: number;
+    state: ErrorState;
+}

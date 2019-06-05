@@ -3,6 +3,7 @@ import * as net from "net";
 import { Navigator } from "../graph/Navigator";
 import { validateClientMap } from "../util/validateClientMap"
 import { MessageReceiver } from "../mqttReceiver/Receiver";
+import { BrokerEvent, UserMap } from "../types/Types";
 
 export class Server extends net.Server {
     private navigator: Navigator;
@@ -54,9 +55,11 @@ export class Server extends net.Server {
 
     private setupBackendListener(): void {
         this.backend.on("event", (message: string) => {
-            console.log(message);
+            const brokerEvent: BrokerEvent = JSON.parse(message);
+            console.log("Received message from broker: ", brokerEvent);
+            this.navigator.updateState(brokerEvent.id, brokerEvent.state);
         });
-    }
+    };
 
     private handleConnection(connection: net.Socket): void {
         // Implement first map transmission
@@ -89,7 +92,10 @@ export class Server extends net.Server {
         // Check message type at later point, not needed for mvp
         // isMessageOk(message) => true etc.
         // Just print for now, later we call something like this:
-        const path: any = this.navigator.lookupQuickestExit({help: "me"});
-        connection.write(`${path.toString()}\n`);
+        const req: UserMap = JSON.parse(message);
+        if (req.Help === true) {
+            const path: string = this.navigator.lookupQuickestExit([req.User.x, req.User.y, req.User.z]);
+            connection.write(`${path}\n`);
+        };
     };
 };
